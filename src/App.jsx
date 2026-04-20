@@ -4,7 +4,8 @@ const projects = [
   {
     title: "SharkBot",
     description:
-      "SharkBot is a Twitch chatbot that uses the Twitch API to respond to messages in chat.",
+      "SharkBot is a Twitch chatbot that uses the Twitch API to respond to messages in chat.\n"+
+      "This project solves the issues that Twitch streamers face when ",
     features: [
       "Custom commands",
       "Chat moderation",
