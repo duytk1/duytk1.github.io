@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+const CONTACT_EMAIL = "duytk.job@gmail.com";
+const CONTACT_EMAIL_SUBJECT = "Portfolio Inquiry";
+
 const projects = [
   {
     title: "SharkBot",
@@ -25,7 +28,7 @@ const projects = [
   },
   {
     title: "MineSweeper",
-    description: "This is a simple desktop Minesweeper game in Java with a Swing GUI grid, mines, left-click to reveal, right-click to flag and safe first click.",
+    description: "This is a desktop Minesweeper game in Java with a Swing GUI grid, mines, left-click to reveal, right-click to flag and safe first click.",
     features: [
       "Fully functioning board",
       "Custom sound effects",
@@ -136,6 +139,15 @@ function App() {
       <header className="site-header">
         <div className="container">
           <h1>David Truong</h1>
+          <p className="site-tagline">
+            Phone: +1 (343) 463-9602
+          </p>
+          <p className="site-tagline">
+            Email:{" "}
+            <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_EMAIL_SUBJECT,)}`} className="site-contact-link">
+              {CONTACT_EMAIL}
+            </a>
+          </p>
         </div>
       </header>
 
