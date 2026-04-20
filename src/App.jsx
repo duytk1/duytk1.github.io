@@ -173,7 +173,12 @@ function App() {
                 >
                   Live Demo
                 </button>
-                <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                <a
+                  href={project.githubUrl}
+                  className="link-button"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   GitHub
                 </a>
               </div>

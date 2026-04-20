@@ -155,21 +155,37 @@ h1 {
   align-items: center;
 }
 
-.links a,
-.link-button {
+.links .link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: 0.45rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1.2;
   color: var(--accent);
   text-decoration: none;
-  font-size: 0.92rem;
-  background: none;
-  border: 0;
-  padding: 0;
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in oklab, var(--accent) 42%, var(--panel-border));
+  border-radius: 8px;
   cursor: pointer;
-  font-family: inherit;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
-.links a:hover,
-.link-button:hover {
-  text-decoration: underline;
+.links .link-button:hover {
+  background: color-mix(in oklab, var(--accent) 22%, transparent);
+  border-color: color-mix(in oklab, var(--accent) 55%, var(--panel-border));
+  color: color-mix(in oklab, var(--accent) 92%, white);
+}
+
+.links .link-button:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--accent) 70%, transparent);
+  outline-offset: 2px;
 }
 
 .video-modal-backdrop {
