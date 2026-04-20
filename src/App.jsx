@@ -26,7 +26,8 @@ const projects = [
   {
     title: "MineSweeper",
     description: "MineSweeper is project that uses Java to create a Minesweeper game.",
-    features: [],
+    features: ["Minesweeper game"],
+    featureImages: ["/images/minesweeper-board.png"],
     tags: ["Java"],
     githubUrl: "https://github.com/duytk1/minesweeper",
     videoUrl: "/videos/project-two-demo.mp4",
@@ -34,7 +35,12 @@ const projects = [
   {
     title: "Project Three",
     description: "Add your project summary here. Mention your role and key result.",
-    features: [],
+    features: [
+      
+    ],
+    featureImages: [
+
+    ],
     tags: ["Next.js", "Tailwind", "Vercel"],
     githubUrl: "#",
     videoUrl: "/videos/project-three-demo.mp4",
@@ -42,16 +48,68 @@ const projects = [
   {
     title: "Project Four",
     description: "Add your project summary here. Highlight metrics if possible.",
-    features: [],
+    features: [
+
+    ],
+    featureImages: [
+      
+    ],
     tags: ["Python", "Flask", "PostgreSQL"],
     githubUrl: "#",
     videoUrl: "/videos/project-four-demo.mp4",
   },
 ];
 
+function FeatureShowcase({ features, featureImages }) {
+  const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
+  const totalSlides = Math.min(features.length, featureImages.length);
+
+  useEffect(() => {
+    if (totalSlides < 2) return undefined;
+
+    const interval = window.setInterval(() => {
+      setActiveFeatureIndex((current) => (current + 1) % totalSlides);
+    }, 3500);
+
+    return () => window.clearInterval(interval);
+  }, [totalSlides]);
+
+  useEffect(() => {
+    setActiveFeatureIndex(0);
+  }, [features, featureImages]);
+
+  if (totalSlides === 0) {
+    return null;
+  }
+
+  return (
+    <div className="feature-showcase">
+      <div className="feature-image-frame">
+        <img
+          src={featureImages[activeFeatureIndex]}
+          alt={`${features[activeFeatureIndex]} screenshot`}
+          className="feature-image"
+        />
+      </div>
+      <ul className="feature-list">
+        {features.slice(0, totalSlides).map((feature, index) => (
+          <li key={feature} className={index === activeFeatureIndex ? "feature-active" : ""}>
+            <button
+              type="button"
+              className="feature-item-button"
+              onClick={() => setActiveFeatureIndex(index)}
+            >
+              {feature}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function App() {
   const [activeVideo, setActiveVideo] = useState(null);
-  const [sharkbotFeatureIndex, setSharkbotFeatureIndex] = useState(0);
 
   useEffect(() => {
     if (!activeVideo) return undefined;
@@ -63,19 +121,6 @@ function App() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [activeVideo]);
-
-  useEffect(() => {
-    const sharkBotProject = projects.find((project) => project.title === "SharkBot");
-    if (!sharkBotProject || sharkBotProject.featureImages.length === 0) return undefined;
-
-    const interval = window.setInterval(() => {
-      setSharkbotFeatureIndex(
-        (current) => (current + 1) % sharkBotProject.featureImages.length
-      );
-    }, 3500);
-
-    return () => window.clearInterval(interval);
-  }, []);
 
   return (
     <>
@@ -95,41 +140,10 @@ function App() {
               {project.features.length > 0 && (
                 <>
                   <p className="feature-title">Featuring:</p>
-                  {project.title === "SharkBot" ? (
-                    <div className="feature-showcase">
-                      <div className="feature-image-frame">
-                        <img
-                          src={project.featureImages[sharkbotFeatureIndex]}
-                          alt={`${project.features[sharkbotFeatureIndex]} screenshot`}
-                          className="feature-image"
-                        />
-                      </div>
-                      <ul className="feature-list">
-                        {project.features.map((feature, index) => (
-                          <li
-                            key={feature}
-                            className={
-                              index === sharkbotFeatureIndex ? "feature-active" : ""
-                            }
-                          >
-                            <button
-                              type="button"
-                              className="feature-item-button"
-                              onClick={() => setSharkbotFeatureIndex(index)}
-                            >
-                              {feature}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : (
-                    <ul className="feature-list">
-                      {project.features.map((feature) => (
-                        <li key={feature}>{feature}</li>
-                      ))}
-                    </ul>
-                  )}
+                  <FeatureShowcase
+                    features={project.features}
+                    featureImages={project.featureImages ?? []}
+                  />
                 </>
               )}
 
