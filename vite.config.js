@@ -1,11 +1,15 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// GitHub Pages project sites are served from https://<user>.github.io/<repo>/.
-// `base` must match that repo segment. Dev server keeps base "/" so localhost:5173 works as usual.
-const GITHUB_PAGES_BASE = "/portfolio/";
+// Project Pages: https://<user>.github.io/<repo>/ — `base` must be /<repo>/
+// CI sets GITHUB_REPOSITORY=owner/repo so renames still work. Local build falls back to /portfolio/.
+function productionBase() {
+  const repo = process.env.GITHUB_REPOSITORY?.split("/")[1];
+  if (repo) return `/${repo}/`;
+  return "/portfolio/";
+}
 
 export default defineConfig(({ command }) => ({
-  base: command === "serve" ? "/" : GITHUB_PAGES_BASE,
+  base: command === "serve" ? "/" : productionBase(),
   plugins: [react()],
 }));
