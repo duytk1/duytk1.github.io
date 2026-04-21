@@ -1,3 +1,7 @@
+# One deploy path: push to main/master → build with Vite → publish dist/ to GitHub Pages.
+# Repo Settings → Pages → Source must be "GitHub Actions" (not "Deploy from a branch").
+# See README "Deploy to GitHub Pages".
+
 name: Deploy to GitHub Pages
 
 on:
@@ -15,8 +19,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,26 +32,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Verify Vite replaced the dev entry in index.html
+      - name: Ensure production index.html (not dev /src/main.jsx)
         run: |
           if grep -q 'src/main.jsx' dist/index.html; then
-            echo "::error::dist/index.html still references /src/main.jsx — build output is wrong."
+            echo "::error::dist/index.html still references /src/main.jsx"
             cat dist/index.html
             exit 1
           fi
-          echo "OK: dist/index.html uses production bundles."
-      # Required before upload-pages-artifact; without it Pages deploy can fail or serve incorrectly.
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - uses: actions/deploy-pages@v4
         id: deployment

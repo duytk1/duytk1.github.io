@@ -31,6 +31,17 @@ Then open the URL Vite prints in the terminal (usually `http://localhost:5173`).
 | `npm run build`| Production build to `dist/`          |
 | `npm run preview` | Serve the production build locally |
 
+## Deploy to GitHub Pages
+
+Deploying is **push to GitHub** only. You do **not** run `npm run deploy` or publish the `dist/` folder yourself.
+
+1. **One-time:** In the repo on GitHub, go to **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** (not “Deploy from a branch” on your source code).
+2. **Each update:** Commit and push to **`main`** or **`master`**. The workflow **Deploy to GitHub Pages** runs `npm ci`, `npm run build`, and publishes **`dist/`**.
+3. **Optional:** **Actions** tab → **Deploy to GitHub Pages** → **Run workflow** to redeploy without a code change.
+4. Approve the **`github-pages`** environment the first time GitHub asks.
+
+For a **`username.github.io`** repository, the live site is **`https://username.github.io/`**. Local checks: `npm run build` then `npm run preview`.
+
 ## Project layout
 
 - `src/App.jsx` — Page content: projects data, header, project cards, video modal
