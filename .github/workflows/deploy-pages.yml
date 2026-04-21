@@ -1,6 +1,5 @@
-# One deploy path: push to main/master → build with Vite → publish dist/ to GitHub Pages.
-# Repo Settings → Pages → Source must be "GitHub Actions" (not "Deploy from a branch").
-# See README "Deploy to GitHub Pages".
+# Static site: no npm/Vite. Copies HTML/CSS/JS and assets into _site/ and deploys to GitHub Pages.
+# Settings → Pages → Source: GitHub Actions
 
 name: Deploy to GitHub Pages
 
@@ -26,22 +25,18 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      - name: Ensure production index.html (not dev /src/main.js)
+      - name: Assemble site
         run: |
-          if grep -q 'src/main.js' dist/index.html; then
-            echo "::error::dist/index.html still references /src/main.js"
-            cat dist/index.html
-            exit 1
-          fi
+          mkdir -p _site/images _site/videos
+          cp index.html styles.css portfolio.js _site/
+          cp .nojekyll _site/
+          if [ -d images ]; then cp -r images/. _site/images/; fi
+          if [ -d public/images ]; then cp -r public/images/. _site/images/; fi
+          if [ -d videos ]; then cp -r videos/. _site/videos/; fi
+          if [ -d public/videos ]; then cp -r public/videos/. _site/videos/; fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: _site
       - uses: actions/deploy-pages@v4
         id: deployment
