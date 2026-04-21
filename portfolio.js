@@ -276,7 +276,7 @@ function setupVideoModal() {
   return { open, close };
 }
 
-function main() {
+function initPortfolio() {
   const root = document.getElementById("root");
   if (!root) return;
 
@@ -300,4 +300,4 @@ function main() {
   root.appendChild(frag);
 }
 
-main();
+initPortfolio();

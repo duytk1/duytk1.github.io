@@ -2,6 +2,10 @@
 
 Personal portfolio: **static HTML + CSS + vanilla JavaScript** (no Vite, no React, no npm build).
 
+## Troubleshooting
+
+If the console mentions **`main.js`** or **`Unexpected token '<'`**, the page is almost always loading an **old script URL** (often a **404 HTML page** treated as JavaScript). This project no longer uses `main.js`. Do a **hard refresh** (Ctrl+Shift+R), try a **private window**, and confirm **GitHub Actions** has deployed the latest commit (Settings → Pages should use **GitHub Actions**).
+
 ## Local preview
 
 Open `index.html` in a browser, or use any static file server from this folder, for example:
