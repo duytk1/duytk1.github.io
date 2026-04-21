@@ -1,17 +1,8 @@
-# Deploys the Vite production build (dist/), NOT the repo root.
-#
-# REQUIRED — GitHub repo: Settings → Pages → Build and deployment:
-#   Source: GitHub Actions  (NOT "Deploy from a branch")
-# If Source is a branch, GitHub serves this repo's index.html unchanged, so the browser
-# requests /src/main.jsx from the domain root → 404. Only the built dist/ has bundled JS.
-#
-# After the first push with this workflow, pick this workflow under Pages if prompted.
-
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches: [master, main]
   workflow_dispatch:
 
 permissions:
