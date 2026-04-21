@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-/** Root-relative public paths (`/images/...`) need the Vite base prefix on GitHub Pages (`/portfolio/`). */
+/** Public asset paths: prefix with import.meta.env.BASE_URL ("/" on user site, "/repo/" on project Pages). */
 function publicUrl(path) {
   const normalized = path.startsWith("/") ? path.slice(1) : path;
   return `${import.meta.env.BASE_URL}${normalized}`;

@@ -1,12 +1,14 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// Project Pages: https://<user>.github.io/<repo>/ — `base` must be /<repo>/
-// CI sets GITHUB_REPOSITORY=owner/repo so renames still work. Local build falls back to /portfolio/.
+// User site: repo named <user>.github.io → https://<user>.github.io/  → base "/"
+// Project site: other repo names → https://<user>.github.io/<repo>/  → base "/<repo>/"
+// CI always sets GITHUB_REPOSITORY=owner/repo. For local prod builds without it, default "/".
 function productionBase() {
   const repo = process.env.GITHUB_REPOSITORY?.split("/")[1];
-  if (repo) return `/${repo}/`;
-  return "/portfolio/";
+  if (!repo) return "/";
+  if (repo.endsWith(".github.io")) return "/";
+  return `/${repo}/`;
 }
 
 export default defineConfig(({ command }) => ({
